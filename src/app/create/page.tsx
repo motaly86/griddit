@@ -123,7 +123,7 @@ export default function CreatePage() {
               onChange={e => setCategory(e.target.value)}
               className="w-full bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2.5 text-white focus:border-indigo-500 focus:outline-none"
             >
-              {['General', 'Sports', 'Gaming', 'Music', 'News', 'Entertainment', 'Education'].map(c => (
+              {['General', 'Sports', 'Gaming', 'Music', 'News', 'Entertainment', 'Education', 'Cooking', 'Science', 'ASMR', 'Relaxing', 'Comedy', 'Fitness', 'Cars', 'Anime', 'Nature', 'Travel'].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>

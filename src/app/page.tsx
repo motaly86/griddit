@@ -8,17 +8,20 @@ type SortType = 'hot' | 'new' | 'top'
 export default function FeedPage() {
   const [grids, setGrids] = useState<any[]>([])
   const [sort, setSort] = useState<SortType>('hot')
+  const [category, setCategory] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setLoading(true)
-    fetch(`/api/grids?sort=${sort}`)
+    const params = new URLSearchParams({ sort })
+    if (category) params.set('category', category)
+    fetch(`/api/grids?${params}`)
       .then(r => r.json())
       .then(data => {
         setGrids(data)
         setLoading(false)
       })
-  }, [sort])
+  }, [sort, category])
 
   return (
     <div className="flex gap-6">
@@ -83,10 +86,17 @@ export default function FeedPage() {
           <div className="mt-6 pt-4 border-t border-zinc-800">
             <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Categories</h3>
             <div className="flex flex-wrap gap-1.5">
-              {['Sports', 'Gaming', 'Music', 'News', 'Entertainment', 'Education'].map(cat => (
+              <span
+                onClick={() => setCategory(null)}
+                className={`text-xs px-2 py-1 rounded cursor-pointer transition-colors ${!category ? 'bg-indigo-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-indigo-400'}`}
+              >
+                All
+              </span>
+              {['Sports', 'Gaming', 'Music', 'News', 'Entertainment', 'Education', 'Cooking', 'Science', 'ASMR', 'Relaxing', 'Comedy', 'Fitness', 'Cars', 'Anime', 'Nature', 'Travel'].map(cat => (
                 <span
                   key={cat}
-                  className="text-xs bg-zinc-800 text-zinc-400 hover:text-indigo-400 px-2 py-1 rounded cursor-pointer transition-colors"
+                  onClick={() => setCategory(category === cat ? null : cat)}
+                  className={`text-xs px-2 py-1 rounded cursor-pointer transition-colors ${category === cat ? 'bg-indigo-600 text-white' : 'bg-zinc-800 text-zinc-400 hover:text-indigo-400'}`}
                 >
                   {cat}
                 </span>
